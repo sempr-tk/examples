@@ -1,0 +1,69 @@
+version: 2
+jobs:
+  setup_sempr:
+    docker:
+      - image: ubuntu:xenial
+    environment:
+      LD_LIBRARY_PATH=/usr/local/lib
+    steps:
+      - run: 
+        name: Install deps for sempr
+        command: |
+          apt-get update -qq
+          apt-get install -y -qq odb libodb-dev libodb-sqlite-2.4 libodb-boost-2.4 libsqlite3-dev
+          apt-get install -y -qq g++ cmake
+          apt-get install -y -qq libboost-all-dev
+          apt-get install -y -qq pkg-config
+          apt-get install -y -qq libsoprano-dev
+          apt-get install -y -qq qt4-default
+          apt-get install -y -qq libgeos-dev
+          apt-get install -y -qq git
+      - restore_cache:
+          keys:
+            - gdal-2.2.3-cache
+      - run:
+          name: Install GDAL
+          command: |
+            git clone https://github.com/OSGeo/gdal.git -b tags/2.2.3 || echo "gdal repo already present"
+            cd gdal/gdal 
+            ./configure -with-geos=yes
+            make -j8
+            make install
+      - save_cache:
+          key: gdal-2.2.3-cache
+          paths:
+            - gdal
+
+      - run:
+        name: Checkout SEMPR (core)
+        command: |
+          git clone https://github.com/sempr-tk/sempr.git || echo "sempr repo already present"
+            
+      - restore_cache:
+          keys: 
+            - sempr-cache-{{ checksum "sempr/README.md" }}
+          
+      - run:
+        name: Install SEMPR (core)
+        command: |
+          cd sempr
+          mkdir install
+          mkdir build && cd build
+          cmake .. -DCMAKE_INSTALL_PREFIX=../install
+          make -j8 install
+      - save_cache:
+          key: sempr-cache-{{ checksum "sempr/README.md" }}
+          paths:
+            - sempr/build
+            - sempr/install
+       
+      - checkout
+      - run:
+        name: Build examples
+          mkdir build && cd build
+          export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:~/project/sempr/install/lib/pkgconfig
+          export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/project/sempr/install/lib
+          cmake ..
+          make -j8
+          ./simple_use/example
+          ./new_entity/test_extension
