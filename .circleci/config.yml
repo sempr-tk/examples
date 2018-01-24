@@ -48,8 +48,9 @@ jobs:
           name: Install SEMPR (core)
           command: |
             cd sempr
-            mkdir install
-            mkdir build && cd build
+            mkdir install || echo "install dir already exists (cached)"
+            mkdir build || echo "build dir already exists (cached)"
+            cd build
             cmake .. -DCMAKE_INSTALL_PREFIX=../install
             make -j8 install
       - save_cache:
