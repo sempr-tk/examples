@@ -1,22 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 
 project(sempr_example_extension)
-set(CMAKE_CXX_FLAGS "-std=c++11")
-add_definitions(-Wall -Wno-unknown-pragmas)
 
-include_directories(include)
+# a project that only uses the sempr core library
+add_subdirectory(simple_use)
 
-find_package(PkgConfig REQUIRED)
-
-# find & use sempr
-pkg_check_modules(SEMPR REQUIRED sempr-core)
-include_directories(${SEMPR_INCLUDE_DIRS})
-link_directories(${SEMPR_LIBRARY_DIRS})
-add_definitions(${SEMPR_CFLAGS_OTHER})  # for the database-flag (sqlite, postgresql, ...)
-
-# message("${SEMPR_INCLUDE_DIRS}")
-# message("${SEMPR_LIBRARY_DIRS}")
-# message("${SEMPR_CFLAGS_OTHER}")
-
-add_executable(example src/example.cpp)
-target_link_libraries(example ${SEMPR_LIBRARIES})
+# a project that extends the sempr core library with a new entity
+add_subdirectory(new_entity)
