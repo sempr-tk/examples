@@ -67,5 +67,10 @@ jobs:
             export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/project/sempr/install/lib
             cmake ..
             make -j8
-            ./simple_use/example
-            ./new_entity/test_extension
+      - run:
+          name: Test examples
+          command: |
+            cd build
+            cd simple_use && ./example
+            cd ..
+            cd new_entity && ./test_extension
