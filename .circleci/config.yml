@@ -6,6 +6,7 @@ jobs:
     environment:
       LD_LIBRARY_PATH=/usr/local/lib
     steps:
+      - checkout
       - run: 
           name: Install deps for sempr
           command: |
@@ -57,7 +58,6 @@ jobs:
             - sempr/build
             - sempr/install
        
-      - checkout
       - run:
           name: Build examples
           command: |
