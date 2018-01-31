@@ -18,6 +18,7 @@ jobs:
             apt-get install -y -qq libsoprano-dev
             apt-get install -y -qq qt4-default
             apt-get install -y -qq libgeos-dev
+            apt-get install -y -qq libeigen3-dev
             apt-get install -y -qq git
       - restore_cache:
           keys:
