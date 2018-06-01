@@ -19,7 +19,7 @@ int main(int argc, char** args)
     processing::DBUpdateModule::Ptr updater(new processing::DBUpdateModule(storage));
 
     // connect everything in a core component
-    core::Core sempr(storage);
+    core::Core sempr;
     sempr.addModule(updater);
 
     // set the id-generator to use a human-readable-incremental-id-strategy.
@@ -41,6 +41,8 @@ int main(int argc, char** args)
     sempr.addEntity(e1);
     sempr.addEntity(e2);
     sempr.addEntity(e3);
+
+    updater->updateDatabase();
 
     // --- list all entities
     std::vector<entity::Entity::Ptr> all;

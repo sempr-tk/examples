@@ -12,7 +12,7 @@ int main(int argc, char** args)
     storage::ODBStorage::Ptr storage(new storage::ODBStorage());
     processing::DBUpdateModule::Ptr updater(new processing::DBUpdateModule(storage));
 
-    core::Core sempr(storage);
+    core::Core sempr;
     sempr.addModule(updater);
 
     core::IDGenerator::getInstance().setStrategy(

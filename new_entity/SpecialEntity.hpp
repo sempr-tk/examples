@@ -6,10 +6,9 @@
 
 #pragma db object
 class SpecialEntity : public sempr::entity::Entity {
+    SEMPR_ENTITY
 public:
     using Ptr = std::shared_ptr<SpecialEntity>;
-    ENTITY_DEFAULT_EVENT_METHODS(SpecialEntity, sempr::entity::Entity)
-
     SpecialEntity();
     SpecialEntity(const sempr::core::IDGenBase*);
 

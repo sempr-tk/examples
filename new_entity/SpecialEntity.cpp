@@ -1,6 +1,8 @@
 #include <SpecialEntity.hpp>
 #include <SpecialEntity_odb.h>
 
+SEMPR_ENTITY_SOURCE(SpecialEntity);
+
 SpecialEntity::SpecialEntity()
     : SpecialEntity(new sempr::core::IDGen<SpecialEntity>())
 {
