@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Checkout SEMPR (core)
           command: |
-            git clone https://github.com/sempr-tk/sempr.git -b feature-pkgconfig || echo "sempr repo already present"
+            git clone https://github.com/sempr-tk/sempr.git || echo "sempr repo already present"
             
       - restore_cache:
           keys: 
