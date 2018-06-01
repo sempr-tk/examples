@@ -53,7 +53,7 @@ jobs:
             mkdir build || echo "build dir already exists (cached)"
             cd build
             cmake .. -DCMAKE_INSTALL_PREFIX=../install
-            make -j8 install
+            make -j2 install
       - save_cache:
           key: sempr-cache-{{ checksum "sempr/README.md" }}
           paths:
